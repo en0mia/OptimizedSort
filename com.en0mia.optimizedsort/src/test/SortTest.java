@@ -9,6 +9,7 @@ package test;
 import algo.*;
 import sort.Sort;
 
+import java.util.Comparator;
 import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -141,6 +142,23 @@ class SortTest {
         assertTrue(sort.getAlgorithm().isStable() && sort.getAlgorithm().isInPlace());
 
         assertTrue(this.isSorted());
+    }
+
+    @org.junit.jupiter.api.Test
+    void testComparatorSort() {
+        Sort<Integer> sort = new Sort<>(this.array, true, true);
+        sort.setComparator(Comparator.reverseOrder());
+        this.array = sort.sort();
+
+        boolean isSorted = true;
+
+        for (int i = 1; i < LENGTH; i++) {
+            if (this.array[i] > this.array[i - 1]) {
+                isSorted = false;
+            }
+        }
+
+        assertTrue(isSorted);
     }
 
     boolean isSorted() {
