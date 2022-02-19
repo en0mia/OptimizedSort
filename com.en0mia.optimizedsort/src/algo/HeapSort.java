@@ -7,6 +7,7 @@
 package algo;
 
 import java.util.Arrays;
+import java.util.Comparator;
 
 /*
  * Heap sort.Sort implementation.
@@ -15,18 +16,21 @@ import java.util.Arrays;
  *
  * Average Time Complexity: nlog(n)
  */
-public class HeapSort<Type extends Comparable<Type>> implements AlgoInterface<Type> {
-    protected final Type []heap;
-    public boolean inPlace = true;
-
+public class HeapSort<Type extends Comparable<Type>> extends AbstractAlgo<Type> {
     public HeapSort(Type []input) {
         // Safe copy.
-        this.heap = Arrays.copyOf(input, input.length);
+        this.input = Arrays.copyOf(input, input.length);
+    }
+
+    public HeapSort(Type []input, Comparator<Type> comparator) {
+        // Safe copy.
+        this.input = Arrays.copyOf(input, input.length);
+        this.comparator = comparator;
     }
 
     @Override
     public void sort() {
-        int n = this.heap.length;
+        int n = this.input.length;
 
         // Build the heap using heapify
         for (int i = n/2 - 1; i >= 0; i--) {
@@ -45,11 +49,11 @@ public class HeapSort<Type extends Comparable<Type>> implements AlgoInterface<Ty
         int left = i * 2 + 1;
         int right = i * 2 + 2;
 
-        if (left < n && this.heap[left].compareTo(this.heap[root]) > 0) {
+        if (left < n && this.compare(this.input[left], this.input[root]) > 0) {
             root = left;
         }
 
-        if (right < n && this.heap[right].compareTo(this.heap[root]) > 0) {
+        if (right < n && this.compare(this.input[right], this.input[root]) > 0) {
             root = right;
         }
 
@@ -59,15 +63,10 @@ public class HeapSort<Type extends Comparable<Type>> implements AlgoInterface<Ty
         }
     }
 
-    @Override
-    public Type[] getSorted() {
-        return this.heap;
-    }
-
     protected void swap(int a, int b) {
-        Type tmp = this.heap[a];
-        this.heap[a] = this.heap[b];
-        this.heap[b] = tmp;
+        Type tmp = this.input[a];
+        this.input[a] = this.input[b];
+        this.input[b] = tmp;
     }
 
     @Override

@@ -6,11 +6,14 @@ package sort;/*
 
 import algo.*;
 
+import java.util.Comparator;
+
 public class Sort<Type extends Comparable<Type>> {
     protected Type[] input;
     protected boolean inPlace = false;
     protected boolean stable = false;
     protected AlgoInterface<Type> algorithm = null;
+    protected Comparator<Type> comparator = null;
 
     @SuppressWarnings("")
     public Sort(Type []input) throws IllegalArgumentException {
@@ -23,6 +26,10 @@ public class Sort<Type extends Comparable<Type>> {
         this.input = input;
         this.inPlace = inPlace;
         this.stable = stable;
+    }
+
+    public void setComparator(Comparator<Type> comparator) {
+        this.comparator = comparator;
     }
 
     private void verify(Type []input) throws IllegalArgumentException {
@@ -53,19 +60,19 @@ public class Sort<Type extends Comparable<Type>> {
         if (this.algorithm == null) {
             if (this.inPlace) {
                 // Heap sort is in place but not stable!
-                this.algorithm = new HeapSort<>(this.input);
+                this.algorithm = new HeapSort<>(this.input, this.comparator);
 
                 if (this.stable) {
                     // Insertion sort is in place and stable!
-                    this.algorithm = new InsertionSort<>(this.input);
+                    this.algorithm = new InsertionSort<>(this.input, this.comparator);
                 }
             } else {
                 // Merge sort is stable but not in place!
                 // Cutoff for tiny arrays
                 if (this.input.length < 7) {
-                    this.algorithm = new InsertionSort<>(this.input);
+                    this.algorithm = new InsertionSort<>(this.input, this.comparator);
                 } else {
-                    this.algorithm = new MergeSort<>(this.input);
+                    this.algorithm = new MergeSort<>(this.input, this.comparator);
                 }
             }
         }

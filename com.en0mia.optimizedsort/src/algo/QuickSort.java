@@ -7,6 +7,7 @@
 package algo;
 
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Random;
 
 /*
@@ -16,12 +17,16 @@ import java.util.Random;
  *
  * Average Time Complexity: nlog(n)
  */
-public class QuickSort<Type extends Comparable<Type>> implements AlgoInterface<Type> {
-    protected final Type []input;
-
+public class QuickSort<Type extends Comparable<Type>> extends AbstractAlgo<Type> {
     public QuickSort(Type[] input) {
         // Safe copy.
         this.input = Arrays.copyOf(input, input.length);
+    }
+
+    public QuickSort(Type[] input, Comparator<Type> comparator) {
+        // Safe copy.
+        this.input = Arrays.copyOf(input, input.length);
+        this.comparator = comparator;
     }
 
     public void sort() {
@@ -53,13 +58,13 @@ public class QuickSort<Type extends Comparable<Type>> implements AlgoInterface<T
         int j = high + 1;
 
         while (true) {
-            while (this.input[++i].compareTo(this.input[low]) < 0) {
+            while (this.compare(this.input[++i], this.input[low]) < 0) {
                 if (i == high) {
                     break;
                 }
             }
 
-            while (this.input[low].compareTo(this.input[--j]) < 0) {
+            while (this.compare(this.input[low], this.input[--j]) < 0) {
                 if (j == low) {
                     break;
                 }
@@ -80,11 +85,6 @@ public class QuickSort<Type extends Comparable<Type>> implements AlgoInterface<T
         Type tmp = this.input[a];
         this.input[a] = this.input[b];
         this.input[b] = tmp;
-    }
-
-    @Override
-    public Type[] getSorted() {
-        return this.input;
     }
 
     @Override

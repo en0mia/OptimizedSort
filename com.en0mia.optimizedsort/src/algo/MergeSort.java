@@ -7,6 +7,7 @@
 package algo;
 
 import java.util.Arrays;
+import java.util.Comparator;
 
 /*
  * Merge sort.Sort implementation.
@@ -15,12 +16,16 @@ import java.util.Arrays;
  *
  * Average Time Complexity: nlog(n)
  */
-public class MergeSort<Type extends Comparable<Type>> implements AlgoInterface<Type> {
-    protected final Type[] input;
-
+public class MergeSort<Type extends Comparable<Type>> extends AbstractAlgo<Type> {
     public MergeSort(Type []input) {
         // Safe copy.
         this.input = Arrays.copyOf(input, input.length);
+    }
+
+    public MergeSort(Type []input, Comparator<Type> comparator) {
+        // Safe copy.
+        this.input = Arrays.copyOf(input, input.length);
+        this.comparator = comparator;
     }
 
     @Override
@@ -51,17 +56,12 @@ public class MergeSort<Type extends Comparable<Type>> implements AlgoInterface<T
                 a[k] = aux[j++];
             } else if (j > high) {
                 a[k] = aux[i++];
-            } else if (aux[j].compareTo(aux[i]) < 0) {
+            } else if (this.compare(aux[j], aux[i]) < 0) {
                 a[k] = aux[j++];
             } else {
                 a[k] = aux[i++];
             }
         }
-    }
-
-    @Override
-    public Type[] getSorted() {
-        return this.input;
     }
 
     @Override

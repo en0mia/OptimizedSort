@@ -7,6 +7,7 @@
 package algo;
 
 import java.util.Arrays;
+import java.util.Comparator;
 
 /*
  * Selection sort.Sort implementation.
@@ -15,11 +16,15 @@ import java.util.Arrays;
  *
  * Average Time Complexity: n^2
  */
-public class SelectionSort<Type extends Comparable<Type>> implements AlgoInterface<Type> {
-    protected final Type[] input;
-
+public class SelectionSort<Type extends Comparable<Type>> extends AbstractAlgo<Type> {
     public SelectionSort(Type[] input) {
         this.input = Arrays.copyOf(input, input.length);
+    }
+
+    public SelectionSort(Type[] input, Comparator<Type> comparator) {
+        // Safe copy.
+        this.input = Arrays.copyOf(input, input.length);
+        this.comparator = comparator;
     }
 
     @Override
@@ -28,7 +33,7 @@ public class SelectionSort<Type extends Comparable<Type>> implements AlgoInterfa
             int min = i;
 
             for (int j = (i+1); j < this.input.length; j++) {
-                if (this.input[min].compareTo(this.input[j]) > 0) {
+                if (this.compare(this.input[min], this.input[j]) > 0) {
                     min = j;
                 }
             }
@@ -39,11 +44,6 @@ public class SelectionSort<Type extends Comparable<Type>> implements AlgoInterfa
                 this.input[i] = k;
             }
         }
-    }
-
-    @Override
-    public Type[] getSorted() {
-        return this.input;
     }
 
     @Override

@@ -11,4 +11,5 @@ public interface AlgoInterface<Type extends Comparable<Type>> {
     Type [] getSorted();
     boolean isStable();
     boolean isInPlace();
+    int compare(Type a, Type b);
 }

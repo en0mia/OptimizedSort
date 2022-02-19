@@ -7,6 +7,7 @@
 package algo;
 
 import java.util.Arrays;
+import java.util.Comparator;
 
 /*
  * Insertion sort.Sort implementation.
@@ -15,12 +16,16 @@ import java.util.Arrays;
  *
  * Average Time Complexity: n^2
  */
-public class InsertionSort<Type extends Comparable<Type>> implements AlgoInterface<Type> {
-    protected final Type[] input;
-
+public class InsertionSort<Type extends Comparable<Type>> extends AbstractAlgo<Type> {
     public InsertionSort(Type []input) {
         // Safe copy.
         this.input = Arrays.copyOf(input, input.length);
+    }
+
+    public InsertionSort(Type []input, Comparator<Type> comparator) {
+        // Safe copy.
+        this.input = Arrays.copyOf(input, input.length);
+        this.comparator = comparator;
     }
 
     @Override
@@ -29,18 +34,13 @@ public class InsertionSort<Type extends Comparable<Type>> implements AlgoInterfa
             Type key = this.input[i];
             int j = i - 1;
 
-            while (j >= 0 && (this.input[j].compareTo(key) > 0)) {
+            while (j >= 0 && (this.compare(this.input[j], key) > 0)) {
                 this.input[j + 1] = this.input[j];
                 j--;
             }
 
             this.input[j + 1] = key;
         }
-    }
-
-    @Override
-    public Type[] getSorted() {
-        return this.input;
     }
 
     @Override
