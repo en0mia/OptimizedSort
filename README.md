@@ -96,7 +96,7 @@ sort.setAlgorithm("quick");
 // Use Shell Sort
 sort.setAlgorithm("shell");
 ```
-... or you can let the library choose the best one using the parameters
+... or you can let the library choose the best one using the parameters...
 
 ```java
 // InPlace: TRUE
@@ -104,7 +104,20 @@ sort.setAlgorithm("shell");
 Sort<Player> sort = new Sort<>(players, true, true);
 ```
 
+... and you can use a custom **comparator** too
+```java
+public class CompareByName implements Comparator<Player> {
+    @Override
+    public int compare(Player o1, Player o2) {
+        return o1.name.compareTo(o2.name);
+    }
+}
+```
 
+```java
+sort.setComparator(new CompareByName());
+players = sort.sort();
+```
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
