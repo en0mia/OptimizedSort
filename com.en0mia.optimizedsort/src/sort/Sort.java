@@ -61,7 +61,12 @@ public class Sort<Type extends Comparable<Type>> {
                 }
             } else {
                 // Merge sort is stable but not in place!
-                this.algorithm = new MergeSort<>(this.input);
+                // Cutoff for tiny arrays
+                if (this.input.length < 7) {
+                    this.algorithm = new InsertionSort<>(this.input);
+                } else {
+                    this.algorithm = new MergeSort<>(this.input);
+                }
             }
         }
 
